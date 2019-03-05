@@ -1,0 +1,84 @@
+<div class="title">
+  <h3>
+    Listado de Brujas
+  </h3>
+</div>
+
+
+<div class="search-button">
+  <button mat-fab color="primary" (click)='changeAction()'>
+    <mat-icon>search</mat-icon>
+  </button>
+  <button mat-fab color="accent" routerLink="/witches/form">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>
+
+<mat-card *ngIf="search">
+  <mat-card-title>
+    Buscar
+  </mat-card-title>
+  <mat-form-field>
+    <input matInput placeholder="Id" [(ngModel)]="witchId">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Nombre" [(ngModel)]="witchName">
+  </mat-form-field>
+
+  <button mat-icon-button (click)='searchWitch()'>
+    <mat-icon>search</mat-icon>
+  </button>
+  <button mat-icon-button (click)='clear()'>
+    <mat-icon>clear</mat-icon>
+  </button>
+
+</mat-card>
+
+<div class="div-table">
+
+  <table mat-table matSort [dataSource]="dataSource" matSort>
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef (mat-sort-header)="id"> Id </th>
+      <td mat-cell *matCellDef="let witch"> {{witch.id}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="name"> Nombre </th>
+      <td mat-cell *matCellDef="let witch"> {{witch.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="grade">
+      <th mat-header-cell *matHeaderCellDef> Grado </th>
+      <td mat-cell *matCellDef="let witch"> {{showGrade(witch.supreme)}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> Accion </th>
+      <td mat-cell class="icons-cell" *matCellDef="let witch">
+          <button mat-icon-button color="primary" [routerLink]="['/witches/form', witch.id, 'view']">
+            <mat-icon>visibility</mat-icon>
+          </button>
+          <button mat-icon-button color="accent" [routerLink]="['/witches/form', witch.id, 'edit']">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" [routerLink]="['/witches/form', witch.id, 'delete']">
+            <mat-icon>delete</mat-icon>
+          </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let witch; columns: columnsToDisplay">
+    </tr>
+
+  </table>
+
+  <mat-paginator #paginator
+                [pageSize]="pageSize"
+                [pageSizeOptions]="[5, 10, 20]"
+                [showFirstLastButtons]="true"
+                [length]="totalSize"
+              >
+  </mat-paginator>
+</div>

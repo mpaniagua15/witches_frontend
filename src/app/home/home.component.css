@@ -1,0 +1,24 @@
+.title {
+  color: #696969;
+  margin-top: 20px;
+  margin-left: 60px;
+}
+
+.card-deck {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  margin: auto;
+  margin-top: 30px;
+}
+
+.card {
+  align-self: center;
+  color: #696969;
+  cursor: pointer;
+  max-width: 300px;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+.mat-card {
+}

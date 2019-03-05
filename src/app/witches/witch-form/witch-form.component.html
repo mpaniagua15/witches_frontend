@@ -1,0 +1,122 @@
+<div class="title">
+  <h3 *ngIf="action=='create' else elseBlock1">
+    Registrar Bruja
+  </h3>
+
+  <ng-template #elseBlock1>
+    <h3 *ngIf="action=='view' else elseBlock2">
+      Detalle
+    </h3>
+  </ng-template>
+
+  <ng-template #elseBlock2>
+    <h3 *ngIf="action=='edit' else elseBlock3">
+      Editar
+    </h3>
+  </ng-template>
+
+  <ng-template #elseBlock3>
+    <h3 *ngIf="action=='delete'">
+      Borrar
+    </h3>
+  </ng-template>
+
+</div>
+
+<mat-card>
+  <div class="form-group">
+    <form>
+
+      <mat-form-field>
+        <mat-select [disabled]="action!='create'" [(ngModel)]='isSupreme' name="isSupreme" placeholder="Grado">
+          <mat-option [value]="true">Suprema</mat-option>
+          <mat-option [value]="false">Comun</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    </form>
+
+    <form *ngIf="isSupreme else commonForm">
+
+      <div>
+        <mat-form-field>
+          <input [disabled]="action!='create'" matInput placeholder="Id" type="number" [(ngModel)]="supremeDTO.id" name="id">
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field>
+          <input [disabled]="action=='view' || action =='delete'" matInput placeholder="Nombre" type="text" [(ngModel)]="supremeDTO.name" name="name">
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field>
+          <input matInput [matDatepicker]="picker" [disabled]="action=='view' || action =='delete'"
+              placeholder="Fecha de Nacimiento"
+              [(ngModel)]="supremeDTO.bornDate" name="bornDate">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker [startAt]="supremeDTO.bornDate"></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <button *ngIf="action=='create'" mat-raised-button color="primary" (click)='createSupreme()'>Crear</button>
+        <button *ngIf="action=='edit'" mat-raised-button color="primary" (click)='updateSupreme()'>Guardar</button>
+        <button *ngIf="action=='delete'" mat-raised-button color="primary" (click)='deleteSupreme()'>Borrar</button>
+      </div>
+
+    </form>
+
+  </div>
+
+</mat-card>
+
+  <ng-template #commonForm>
+    <form *ngIf="!isSupreme">
+
+      <div>
+        <mat-form-field>
+          <input matInput [disabled]="action!='create'" placeholder="Bruja Suprema" type="number" [(ngModel)]="commonDTO.supremeWitch.id" name="supremeWitchId">
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field>
+          <input matInput [disabled]="action!='create'" placeholder="Id" type="number" [(ngModel)]="commonDTO.id" name="id">
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field>
+          <input [disabled]="action=='view' || action =='delete'" matInput placeholder="Nombre" type="text" [(ngModel)]="commonDTO.name" name="name">
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field>
+          <input matInput [disabled]="action=='view' || action =='delete'" placeholder="Region de Origen" type="text" [(ngModel)]="commonDTO.regionOrigin" name="regionOrigin">
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field>
+          <mat-select [disabled]="action=='view' || action =='delete'" placeholder="Vuela Escoba?" [(ngModel)]="commonDTO.flyBroom" name="flyBroom">
+            <mat-option [value]="true">Si</mat-option>
+            <mat-option [value]="false">No</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <button *ngIf="action=='create'" mat-raised-button color="primary" (click)='createCommon()'>Crear</button>
+        <button *ngIf="action=='edit'" mat-raised-button color="primary" (click)='updateCommon()'>Editar</button>
+        <button *ngIf="action=='delete'" mat-raised-button color="primary" (click)='deleteCommon()'>Borrar</button>
+      </div>
+
+    </form>
+  </ng-template>
+
+  <div class="button">
+    <button mat-raised-button color="accent" routerLink="/witches">Volver</button>
+  </div>
